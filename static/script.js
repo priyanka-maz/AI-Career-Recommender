@@ -58,6 +58,9 @@ const selectedOptionsDiv = document.getElementById("selectedOptions");
 // Toggle dropdown
 dropdownButton.addEventListener("click", () => {
     dropdown.classList.toggle("hidden");
+
+    const career = document.getElementById("career");
+    career.classList.add("hidden");
 });
 
 // Close dropdown when clicking outside
@@ -120,7 +123,7 @@ function showToast(message) {
 
 function showCareer(career_name){
     const career = document.getElementById("career");
-    const careerHeading = document.querySelector("#career h5");
+    const careerHeading = document.getElementById("recommendedCareer");
 
     careerHeading.textContent = career_name;
     career.classList.remove("hidden");
@@ -143,30 +146,36 @@ function generating(tag){
 document.querySelector("button[type='submit']").addEventListener("click", async (event) => {
 
     const selectedOptions = getSelectedOptions();
-    generating("on");
-
-    try {
-        const response = await fetch("/generate", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({"options": selectedOptions}),
-        });
-
-        // Handle the response
-        if (response.ok) {
-            const result = await response.json();
-            console.log("Success:", result["career"]);
-            showCareer(result["career"])
-        } else {
-            console.error("Error:", response.statusText);
-            showToast(response.statusText);
-        }
-    } catch (error) {
-        console.error("Network Error:", error);
-        showToast("Network Error");
-    }
+    if (selectedOptions.length < 2) {
+        alert("Please select at least 2 skills.");
+    } 
     
-    generating("off");
+    else {
+        generating("on");
+
+        try {
+            const response = await fetch("/generate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({"options": selectedOptions}),
+            });
+
+            // Handle the response
+            if (response.ok) {
+                const result = await response.json();
+                console.log("Success:", result["career"]);
+                showCareer(result["career"])
+            } else {
+                console.error("Error:", response.statusText);
+                showToast(response.statusText);
+            }
+        } catch (error) {
+            console.error("Network Error:", error);
+            showToast("Network Error");
+        }
+        
+        generating("off");
+    }
 });
