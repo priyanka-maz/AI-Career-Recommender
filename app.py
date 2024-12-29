@@ -4,7 +4,7 @@ import requests
 app = Flask(__name__)
 
 # Logic App Trigger
-url = "https://prod-19.centralindia.logic.azure.com:443/workflows/a9eed72e023b4a48b5ca82ccd78a5fe0/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=GQMElIuRLscdzpVMFVJwRoLRPQHXULOet48Znetl8JI"
+url = MODEL_ENDPOINT_URL
 
 @app.route("/")
 def home():
