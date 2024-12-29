@@ -20,18 +20,18 @@ def generate():
         data = request.get_json()
         skills = ", ".join(f"'{item}'" for item in data["options"])
         
-        # body = {"Skills" : skills}
-        # response = requests.post(url, json=body)
+        body = {"Skills" : skills}
+        response = requests.post(url, json=body)
         
-        response = {"Recommended_Career":["Game Developer"],"status_code":200}
-        return jsonify({"career": response["Recommended_Career"][0]}), 200
+        # response = {"Recommended_Career":["Game Developer"],"status_code":200}
+        # return jsonify({"career": response["Recommended_Career"][0]}), 200
     
-        # if response.status_code == 200:
-        #     print(f"success with status code {response.status_code}: {response.text}")
-        #     return jsonify({"career": response.json()["Recommended_Career"][0]}), 200
-        # else:
-        #     print(f"Failed with status code {response.status_code}: {response.text}")
-        #     return jsonify({"msg": response.text}), response.status_code
+        if response.status_code == 200:
+            print(f"success with status code {response.status_code}: {response.text}")
+            return jsonify({"career": response.json()["Recommended_Career"][0]}), 200
+        else:
+            print(f"Failed with status code {response.status_code}: {response.text}")
+            return jsonify({"msg": response.text}), response.status_code
 
     except Exception as e:
         print("Error:", e)
